@@ -15,3 +15,19 @@ def seq_to_str(seq, sep="\n", with_len=True, len_sep="\n", end_sep="\n"):
         result += "%d%s" % (len(seq), len_sep)
     result += sep.join(str(i) for i in seq) + end_sep
     return result
+
+
+def seqs_to_str(seq, sep="\n", with_len=True, len_sep="\n", end_sep="\n",
+                inner_sep=" ", inner_with_len=False, inner_len_sep=" ",
+                inner_end_sep=""):
+    """
+    Convert a sequence of sequences to a string with the given separator.
+    For each inner sequence, seq_to_str is called with the "inner" arguments.
+    """
+    result = ""
+    if with_len:
+        result += "%d%s" % (len(seq), len_sep)
+    result += sep.join(seq_to_str(s, sep=inner_sep, with_len=inner_with_len,
+                                  len_sep=inner_len_sep, end_sep=inner_end_sep)
+                       for s in seq) + end_sep
+    return result

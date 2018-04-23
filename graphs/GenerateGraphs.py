@@ -271,3 +271,21 @@ def generate_bipartite_graph(vertices, max_edges=None):
     edges = list(edges_set)
     random.shuffle(edges)
     return edges
+
+
+def assign_edges_weights(edges, min_weight, max_weight, unique=False):
+    """
+    Assign a random weight to each of the given edges.
+    Modifies each edge from a pair (u,v) to a triplet (u,v,w).
+    If unique is true, weights are distinct.
+    """
+
+    weight_range = xrange(min_weight, max_weight + 1)
+    if unique:
+        weights = random.sample(weight_range, len(edges))
+    else:
+        weights = [random.choice(weight_range) for _ in xrange(len(edges))]
+
+    for i in xrange(len(edges)):
+        weight = weights[i]
+        edges[i] += (weight,)
